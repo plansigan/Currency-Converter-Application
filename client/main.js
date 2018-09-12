@@ -25,12 +25,19 @@ var app = new Vue({
         addCountriesToConvert(){
 
         },
+        calculateCurrency(){
+            var countries = this.selectedCurrency + "_" + this.convertedCurrency
+            this.convertedAmount = this.selectedAmount * this.formula[countries].val
+        },
         onSelectCountry(){
             // getting the formula for the currencies
             var apiValue = "convert?q=" + this.selectedCurrency + "_" + this.convertedCurrency   
             API.get(apiValue).then(
                 response => this.formula = response.data.results
             )
+            setTimeout(()=>{
+                this.calculateCurrency()
+            },500)
         }
     },
     watch:{
