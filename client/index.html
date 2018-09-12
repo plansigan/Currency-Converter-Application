@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Currency Converter Application</title>
+
+    <!-- For this I will use Semantic UI.... para maiba naman LOL.. -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.js"></script>
+
+    <!-- API caller -->
+    <script src="src/axios.js"></script>
+    
+</head>
+
+<body>
+    <div id="app"  class="ui stackable container">
+        <div class="ui raised very padded text container segment">
+            <h1 class="ui header">Currency Converter Application</h2>
+            <h3>Convert</h3>
+            <div class="ui form">
+                <div class="field">
+                    <div class="fields">
+                        <div class="twelve wide field">
+                            <input type="number" placeholder="Amount" v-model="selectedAmount">
+                        </div>
+                        <div class="four wide field">
+                            <select class="ui fluid dropdown" v-model="selectedCurrency" @change="onSelectCountry">
+                                <option v-for="country in countries" v-bind:value="country.currencyId" >{{country.currencyId}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <h3>To</h3>
+                    <div class="fields">
+                        <div class="twelve wide field">
+                            <input type="number" placeholder="Amount" disabled v-model="convertedAmount">
+                        </div>
+                        <div class="four wide field">
+                            <select class="ui fluid dropdown" v-model="convertedCurrency" @change="onSelectCountry">
+                                <option v-for="country in countries" v-bind:value="country.currencyId">{{country.currencyId}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui button primary">Add</div>
+            <div class="ui button green">Download CSV</div>
+        </div>
+        
+    </div>
+    
+    <!-- I usually use webpack when creating projects using Vue but for this i'll just use the old fashioned way (so expect a bit messy code. dont worry ill comment every bit as much as I can)-->
+<script src="src/vue.js"></script>
+<script src="services/apiServices.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
