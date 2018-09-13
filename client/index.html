@@ -34,25 +34,30 @@
                         </div>
                     </div>
                     <h3>To</h3>
-                    <div class="fields">
-                        <div class="twelve wide field">
-                            <input type="number" placeholder="Amount" disabled v-model="convertedAmount">
+                    <div v-for="(countryToConvert,index) in countriesToConvert" class="fields">
+                        <div class="eight wide field">
+                            <input type="number" placeholder="Amount" disabled v-model="countryToConvert.amount">
                         </div>
                         <div class="four wide field">
-                            <select class="ui fluid dropdown" v-model="convertedCurrency" @change="onSelectCountry">
+                            <select class="ui fluid dropdown" v-model="countryToConvert.currencyId" @change="onSelectCountry">
                                 <option v-for="country in countries" v-bind:value="country.currencyId">{{country.currencyId}}</option>
                             </select>
                         </div>
+                        <div class="four wide field">
+                            <div class="ui button red" @click="removeCountry">Remove</div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
-            <div class="ui button primary">Add</div>
+            <div class="ui button primary" @click="addCountry">Add a Country</div>
             <div class="ui button green">Download CSV</div>
         </div>
         
     </div>
     
-    <!-- I usually use webpack when creating projects using Vue but for this i'll just use the old fashioned way (so expect a bit messy code. dont worry ill comment every bit as much as I can)-->
+    <!-- I usually use webpack when creating projects using Vue but for this i'll just use the old fashioned way 
+        (so expect a bit messy code. dont worry ill comment every bit as much as I can)-->
 <script src="src/vue.js"></script>
 <script src="services/apiServices.js"></script>
 <script src="main.js"></script>
