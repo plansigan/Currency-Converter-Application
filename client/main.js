@@ -22,7 +22,7 @@ var app = new Vue({
     methods:{
         // naming conventions in functions will be as simple as possible so that I don't have to provide a comment.
         getCountries(){
-            API.get('countries').then(
+            APICurrency.get('countries').then(
                 response => this.countries = response.data.results
             )
         },
@@ -34,7 +34,9 @@ var app = new Vue({
             })
         },
         removeCountry(index){
-            this.countriesToConvert.splice(index,1)
+            if (this.countriesToConvert.length >= 2){
+                this.countriesToConvert.splice(index, 1)
+            }
         },
         calculateCurrency(){
             this.countriesToConvert = this.countriesToConvert.map(country => {
@@ -62,18 +64,24 @@ var app = new Vue({
                 var arrayOfCountries = joinedString.match(/[^,]+,[^,]+/g);
             }
             
-            // so here I loop through the api and combine it in a object all together to this.formula
+            // so here I loop through the arrayOfCountries and combine it in a object all together to this.formula and call the api each time
             for (let countries of arrayOfCountries ){
                 var apiValue = "convert?q=" + countries
-                API.get(apiValue).then(
+                APICurrency.get(apiValue).then(
                     response => this.formula = Object.assign(response.data.results, this.formula)
                 ).then(()=>{
-                    this.calculateCurrency()
+                    setTimeout(() => { this.calculateCurrency()},500)
                 })
             }
         },
         isOdd(num){
             return num % 2;
+        },
+        downloadToCSV(){
+            //passing the object to the api for csv conversion
+            API.post('csv', this.countriesToConvert).then(
+                response => alert(response.data)
+            )
         }
     },
     watch:{

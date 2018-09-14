@@ -44,14 +44,14 @@
                             </select>
                         </div>
                         <div class="four wide field">
-                            <div class="ui button red" @click="removeCountry">Remove</div>
+                            <div class="ui button red" @click="removeCountry" v-if="countriesToConvert.length >= 2">Remove</div>
                         </div>
                         
                     </div>
                 </div>
             </div>
             <div class="ui button primary" @click="addCountry">Add a Country</div>
-            <div class="ui button green">Download CSV</div>
+            <div class="ui button green" @click="downloadToCSV">Download CSV</div>
         </div>
         
     </div>
