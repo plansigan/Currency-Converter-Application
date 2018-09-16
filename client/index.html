@@ -24,23 +24,30 @@
             <div class="ui form">
                 <div class="field">
                     <div class="fields">
-                        <div class="twelve wide field">
-                            <input type="number" placeholder="Amount" v-model="selectedAmount">
+                        <div class="ten wide field">
+                            <div class="ui right labeled input">
+                                <label for="amount" class="ui label">{{selected.symbol}}</label>
+                                <input type="number" placeholder="Amount" v-model="selected.amount">
+                            </div>
                         </div>
-                        <div class="four wide field">
-                            <select class="ui fluid dropdown" v-model="selectedCurrency" @change="onSelectCountry">
-                                <option v-for="country in countries" v-bind:value="country.currencyId" >{{country.currencyId}}</option>
+                        <div class="six wide field">
+                            <select class="ui fluid dropdown" v-model="selected.currencyId" @change="onSelectCountry">
+                                <option v-for="country in countries" v-bind:value="country.currencyId" v-bind:symbol="country.currencySymbol" >{{country.currencyId + ' (' + country.name + ')'}}</option>
                             </select>
                         </div>
                     </div>
                     <h3>To</h3>
                     <div v-for="(countryToConvert,index) in countriesToConvert" class="fields">
-                        <div class="eight wide field">
-                            <input type="number" placeholder="Amount" disabled v-model="countryToConvert.amount">
+                        <div class="twelve wide field">
+                            <div class="ui right labeled input">
+                                    <label for="amount" class="ui label">{{countryToConvert.symbol}}</label>
+                                    <input type="number" placeholder="Amount" disabled v-model="countryToConvert.amount">
+                            </div>
+                            
                         </div>
-                        <div class="four wide field">
-                            <select class="ui fluid dropdown" v-model="countryToConvert.currencyId" @change="onSelectCountry">
-                                <option v-for="country in countries" v-bind:value="country.currencyId">{{country.currencyId}}</option>
+                        <div class="eight wide field">
+                            <select class="ui fluid dropdown" v-model="countryToConvert.currencyId" @change="onSelectCountryToConvert(index,$event)">
+                                <option v-for="country in countries" v-bind:value="country.currencyId" v-bind:symbol="country.currencySymbol">{{country.currencyId + ' (' + country.name + ')'}}</option>
                             </select>
                         </div>
                         <div class="four wide field">
@@ -55,6 +62,14 @@
         </div>
         
     </div>
+
+    
+
+    <style>
+        #app{
+            padding-top:1%;
+        }
+    </style>
     
     <!-- I usually use webpack when creating projects using Vue but for this i'll just use the old fashioned way 
         (so expect a bit messy code. dont worry ill comment every bit as much as I can)-->
