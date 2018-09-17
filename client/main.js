@@ -11,8 +11,8 @@ var app = new Vue({
         countries:{},
         countriesToConvert:[
             //default item
-            { amount: 0, currencyId: 'AFN',symbol:'؋' },
-            { amount: 0, currencyId: 'XCD',symbol:'$' }
+            { amount: 0, currencyId: 'AFN',symbol:'؋', ratio:1 },
+            { amount: 0, currencyId: 'XCD', symbol: '$', ratio: 0.035676 }
         ],
         formula:{},
         toCSV:{},
@@ -36,7 +36,8 @@ var app = new Vue({
             this.countriesToConvert.push({
                 amount:0,
                 currencyId:"AFN",
-                symbol:'؋'
+                symbol:'؋',
+                ratio:1
             })
         },
         removeCountry(index){
@@ -55,7 +56,7 @@ var app = new Vue({
                     this.message = 'Hi please try that action again. This maybe cause of slow response of the api or your internet (LOL)'
                     $('.small.modal').modal('show')
                 }
-
+                temp.ratio = this.formula[method].val
                 temp.amount = this.selected.amount * this.formula[method].val
                 
                 return temp;
@@ -124,7 +125,7 @@ var app = new Vue({
             })
             
             API.post('csv', toCSV).then(
-                response => response.data ? window.open('/csvDownload') : $('.small.modal').modal('show'),this.message = response.data
+                response => response.data ? window.open('/csvDownload') : alert(response.data)
             ).then(()=>{
                 //for some magical reason this.countriesToConvert adds a new array wtf!?
                 this.countriesToConvert.splice(0, 1)

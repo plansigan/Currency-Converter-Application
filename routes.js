@@ -26,6 +26,16 @@ router.post('/csv',(req,res)=>{
             value: 'selectedCurrency',
             default: ''
         },
+        {
+            label: 'ratio',
+            value: (row, field) => typeof (row.symbol) == 'undefined' ? '' : row.ratio,
+            default: ' '
+        },
+        {
+            label:' ',
+            value: (row, field) => typeof (row.symbol) == 'undefined' ? '' : '=',
+            default:'='
+        },
         //to Convert
         {
             label: 'Converted Amount',

@@ -40,4 +40,5 @@ app.use('/',mainRoute);
 //SERVER START 
 app.listen(process.env.PORT || 8081, function () {
     console.log(`server has started in ${process.env.PORT || 8081}`)
+    console.log(`or just paste this on your browser (ツ)_/¯ "http://localhost:8081/"`)
 })
