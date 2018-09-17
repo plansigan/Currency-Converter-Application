@@ -1,6 +1,6 @@
 var express     = require('express'),
     router      = express.Router(),
-    converter   = require('json-2-csv'),
+    Json2csvParser = require('json2csv').Parser,
     fs = require('fs');
 
 router.get('/', (req, res) => {
@@ -10,23 +10,48 @@ router.get('/', (req, res) => {
 //csv route
 router.post('/csv',(req,res)=>{
 
-    var json2csv = (err,csv)=>{
-        if(err) throw err;
-        
+    let jsonBody = req.body[0];
 
-        // then write the file to csv format 
-        fs.writeFile('currency.csv', csv, 'utf8', function (err) {
-            if (err) {
-                console.log('Some error occured - file either not saved or corrupted file saved.');
-            } else {
-                console.log(csv)
-                res.send(true)
-                //window.open('/csvDownload')
-            }
-        })
-    }
+    //setting up the fields
+    let fields = [
+        //selected
+        {
+            label: 'Amount',
+            value: (row, field) => typeof (row.selectedSymbol) == 'undefined' ? '' : row.selectedSymbol + " " + row.selectedAmount,
+            default: '',
+            stringify: true
+        },
+        {
+            label: 'Currency ID',
+            value: 'selectedCurrency',
+            default: ''
+        },
+        //to Convert
+        {
+            label: 'Converted Amount',
+            value: (row, field) => typeof (row.symbol) == 'undefined' ? '' : row.symbol + " " + row.amount,
+            default:'',
+            stringify: true
+        },
+        {
+            label:'Currency ID',
+            value:'currencyId',
+            default:''
+        }
+    ];
 
-    converter.json2csv(req.body, json2csv)
+    const json2csvParser = new Json2csvParser({fields});
+    const csv = json2csvParser.parse(jsonBody);
+
+    // then write the file to csv format 
+    fs.writeFile('currency.csv', csv, 'utf8', function (err) {
+        if (err) {
+            console.log('Some error occured - file either not saved or corrupted file saved.');
+        } else {
+            //sends true if csv is correct or no error
+            res.send(true)
+        }
+    })
     
 })
 

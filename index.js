@@ -34,9 +34,6 @@ app.use(cors())
 //USE ROUTE
 app.use('/',mainRoute);
 
-
-
-
 //MY QUESTION:I kinda missing the purpose of nodejs here cause in vuejs(webpack version) you could just use vuejs on making api calls... welp anyway just my thought.
 //MY ANSWER(AFTER 2 hours): Oh yeah.... the csv file *face palm* sorry.
 
