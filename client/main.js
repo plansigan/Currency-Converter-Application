@@ -10,7 +10,7 @@ var app = new Vue({
         convertedCurrency:'AFN',
         countries:{},
         countriesToConvert:[
-            //default item
+            //default items
             { amount: 0, currencyId: 'AFN',symbol:'؋', ratio:1 },
             { amount: 0, currencyId: 'XCD', symbol: '$', ratio: 0.035676 }
         ],
@@ -53,8 +53,7 @@ var app = new Vue({
                 var method = this.selected.currencyId + "_" + temp.currencyId
 
                 if (typeof (this.formula[method].val) == 'undefined') {
-                    this.message = 'Hi please try that action again. This maybe cause of slow response of the api or your internet (LOL)'
-                    $('.small.modal').modal('show')
+                    this.errorMessage('Hi, please try that action again. This maybe cause of slow response of the api or your internet (LOL)')
                 }
                 temp.ratio = this.formula[method].val
                 temp.amount = this.selected.amount * this.formula[method].val
@@ -129,7 +128,14 @@ var app = new Vue({
             ).then(()=>{
                 //for some magical reason this.countriesToConvert adds a new array wtf!?
                 this.countriesToConvert.splice(0, 1)
+            }).catch((err)=>{
+                this.errorMessage("There's no response from the server (index.js) please make sure it is running.")
+                this.countriesToConvert.splice(0, 1)
             })
+        },
+        errorMessage(message){
+            this.message = message
+            $('.small.modal').modal('show')
         }
     },
     watch:{
